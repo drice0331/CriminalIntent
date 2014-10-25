@@ -1,0 +1,190 @@
+!SESSION 2014-10-24 16:14:28.886 -----------------------------------------------
+eclipse.buildId=4.3.2.M20140221-1700
+java.version=1.6.0_65
+java.vendor=Apple Inc.
+BootLoader constants: OS=macosx, ARCH=x86_64, WS=cocoa, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.standard.product -product org.eclipse.epp.package.standard.product -keyring /Users/drice1/.eclipse_keyring -showlocation
+Command-line arguments:  -os macosx -ws cocoa -arch x86_64 -product org.eclipse.epp.package.standard.product -data /Users/drice1/Documents/CriminalIntent -product org.eclipse.epp.package.standard.product -keyring /Users/drice1/.eclipse_keyring -showlocation
+
+!ENTRY org.eclipse.core.net 1 0 2014-10-24 16:14:32.279
+!MESSAGE System property http.nonProxyHosts has been set to local|*.local|169.254/16|*.169.254/16 by an external source. This value will be overwritten using the values from the preferences
+
+!ENTRY com.android.ide.eclipse.adt 4 0 2014-10-24 16:15:53.448
+!MESSAGE Failed to load properties file for project 'CriminalIntent'
+
+!ENTRY org.eclipse.equinox.preferences 4 2 2014-10-24 16:16:01.188
+!MESSAGE Problems occurred when invoking code from plug-in: "org.eclipse.equinox.preferences".
+!STACK 0
+java.lang.IllegalArgumentException: Attempted to beginRule: P/CriminalIntent, does not match outer scope rule: P/appcompat_v7
+	at org.eclipse.core.runtime.Assert.isLegal(Assert.java:63)
+	at org.eclipse.core.internal.jobs.ThreadJob.illegalPush(ThreadJob.java:134)
+	at org.eclipse.core.internal.jobs.ThreadJob.push(ThreadJob.java:333)
+	at org.eclipse.core.internal.jobs.ImplicitJobs.begin(ImplicitJobs.java:63)
+	at org.eclipse.core.internal.jobs.JobManager.beginRule(JobManager.java:286)
+	at org.eclipse.core.internal.resources.WorkManager.checkIn(WorkManager.java:118)
+	at org.eclipse.core.internal.resources.Workspace.prepareOperation(Workspace.java:2283)
+	at org.eclipse.core.internal.resources.Project.touch(Project.java:1403)
+	at org.eclipse.jdt.internal.core.JavaModelManager$EclipsePreferencesListener.preferenceChange(JavaModelManager.java:1507)
+	at org.eclipse.core.internal.preferences.EclipsePreferences$3.run(EclipsePreferences.java:896)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.core.internal.preferences.EclipsePreferences.firePreferenceEvent(EclipsePreferences.java:899)
+	at org.eclipse.core.internal.preferences.EclipsePreferences.put(EclipsePreferences.java:912)
+	at org.eclipse.jdt.internal.core.JavaModelManager.storePreference(JavaModelManager.java:4832)
+	at org.eclipse.jdt.internal.core.JavaModelManager.setOptions(JavaModelManager.java:4884)
+	at org.eclipse.jdt.core.JavaCore.setOptions(JavaCore.java:5586)
+	at org.eclipse.jdt.launching.JavaRuntime.updateCompliance(JavaRuntime.java:2810)
+	at org.eclipse.jdt.launching.JavaRuntime.initializeVMs(JavaRuntime.java:2773)
+	at org.eclipse.jdt.launching.JavaRuntime.getVMInstallTypes(JavaRuntime.java:537)
+	at org.eclipse.jdt.internal.launching.JREPreferenceModifyListener.preApply(JREPreferenceModifyListener.java:128)
+	at org.eclipse.core.internal.preferences.PreferencesService$4.run(PreferencesService.java:448)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.core.internal.preferences.PreferencesService.firePreApplyEvent(PreferencesService.java:451)
+	at org.eclipse.core.internal.preferences.PreferencesService.applyPreferences(PreferencesService.java:121)
+	at org.eclipse.core.internal.resources.ProjectPreferences.read(ProjectPreferences.java:206)
+	at org.eclipse.core.internal.resources.ProjectPreferences.updatePreferences(ProjectPreferences.java:274)
+	at org.eclipse.core.internal.resources.File.updateMetadataFiles(File.java:410)
+	at org.eclipse.core.internal.resources.File.internalSetContents(File.java:322)
+	at org.eclipse.core.internal.resources.File.setContents(File.java:360)
+	at org.eclipse.core.internal.resources.ProjectPreferences$1.run(ProjectPreferences.java:564)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2345)
+	at org.eclipse.core.internal.resources.ProjectPreferences.save(ProjectPreferences.java:597)
+	at org.eclipse.core.internal.preferences.EclipsePreferences.internalFlush(EclipsePreferences.java:471)
+	at org.eclipse.core.internal.resources.ProjectPreferences.flush(ProjectPreferences.java:350)
+	at org.eclipse.jdt.internal.core.JavaProject.setOption(JavaProject.java:2954)
+	at com.android.ide.eclipse.adt.internal.project.ProjectHelper.checkAndFixCompilerCompliance(ProjectHelper.java:513)
+	at com.android.ide.eclipse.adt.internal.project.ProjectHelper.fixProjectClasspathEntries(ProjectHelper.java:422)
+	at com.android.ide.eclipse.adt.internal.project.ProjectHelper.fixProject(ProjectHelper.java:296)
+	at com.android.ide.eclipse.adt.internal.actions.FixProjectAction$1.run(FixProjectAction.java:106)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:53)
+
+!ENTRY com.android.ide.eclipse.adt 4 0 2014-10-24 16:16:06.984
+!MESSAGE Exception in checkAndLoadTargetData.
+!STACK 0
+java.lang.UnsupportedClassVersionError: Unsupported major.minor version 51.0
+	at java.lang.ClassLoader.defineClass1(Native Method)
+	at java.lang.ClassLoader.defineClassCond(ClassLoader.java:637)
+	at java.lang.ClassLoader.defineClass(ClassLoader.java:621)
+	at java.lang.ClassLoader.defineClass(ClassLoader.java:471)
+	at com.android.ide.eclipse.adt.internal.sdk.AndroidJarLoader.defineAndCacheClass(AndroidJarLoader.java:336)
+	at com.android.ide.eclipse.adt.internal.sdk.AndroidJarLoader.findClass(AndroidJarLoader.java:312)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:306)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:247)
+	at com.android.ide.eclipse.adt.internal.sdk.AndroidTargetParser.collectPermissions(AndroidTargetParser.java:336)
+	at com.android.ide.eclipse.adt.internal.sdk.AndroidTargetParser.run(AndroidTargetParser.java:107)
+	at com.android.ide.eclipse.adt.internal.sdk.Sdk$6.run(Sdk.java:712)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:53)
+
+!ENTRY com.android.ide.eclipse.adt 4 0 2014-10-24 16:16:06.986
+!MESSAGE Parsing Data for android-L failed
+!STACK 0
+java.lang.UnsupportedClassVersionError: Unsupported major.minor version 51.0
+	at java.lang.ClassLoader.defineClass1(Native Method)
+	at java.lang.ClassLoader.defineClassCond(ClassLoader.java:637)
+	at java.lang.ClassLoader.defineClass(ClassLoader.java:621)
+	at java.lang.ClassLoader.defineClass(ClassLoader.java:471)
+	at com.android.ide.eclipse.adt.internal.sdk.AndroidJarLoader.defineAndCacheClass(AndroidJarLoader.java:336)
+	at com.android.ide.eclipse.adt.internal.sdk.AndroidJarLoader.findClass(AndroidJarLoader.java:312)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:306)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:247)
+	at com.android.ide.eclipse.adt.internal.sdk.AndroidTargetParser.collectPermissions(AndroidTargetParser.java:336)
+	at com.android.ide.eclipse.adt.internal.sdk.AndroidTargetParser.run(AndroidTargetParser.java:107)
+	at com.android.ide.eclipse.adt.internal.sdk.Sdk$6.run(Sdk.java:712)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:53)
+
+!ENTRY org.eclipse.core.jobs 4 2 2014-10-24 16:17:21.650
+!MESSAGE An internal error occurred during: "Running GTM diagnose".
+!STACK 0
+java.lang.NoSuchMethodError: com.android.tools.lint.detector.api.XmlContext: method <init>(Lcom/android/tools/lint/client/api/LintDriver;Lcom/android/tools/lint/detector/api/Project;Lcom/android/tools/lint/detector/api/Project;Ljava/io/File;Lcom/android/resources/ResourceFolderType;)V not found
+	at com.google.i18n.inkstone.ide.android.diagnose.AndroidDiagnoseClient.createXmlContext(AndroidDiagnoseClient.java:101)
+	at com.google.i18n.inkstone.ide.android.diagnose.AndroidDiagnoseClient.getXmlContext(AndroidDiagnoseClient.java:84)
+	at com.google.i18n.inkstone.ide.android.diagnose.AndroidDiagnoseClient.parse(AndroidDiagnoseClient.java:55)
+	at com.google.i18n.inkstone.ide.common.diagnose.DiagnoseController.analyze(DiagnoseController.java:82)
+	at com.google.i18n.inkstone.eclipse.localization.internal.android.DiagnoseRunner.runInCurrentThread(DiagnoseRunner.java:154)
+	at com.google.i18n.inkstone.eclipse.localization.internal.android.DiagnoseRunner.access$000(DiagnoseRunner.java:36)
+	at com.google.i18n.inkstone.eclipse.localization.internal.android.DiagnoseRunner$1.run(DiagnoseRunner.java:121)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:53)
+
+!ENTRY org.eclipse.core.jobs 4 2 2014-10-24 16:17:39.139
+!MESSAGE An internal error occurred during: "Running GTM diagnose".
+!STACK 0
+java.lang.NoSuchMethodError: com.android.tools.lint.detector.api.XmlContext: method <init>(Lcom/android/tools/lint/client/api/LintDriver;Lcom/android/tools/lint/detector/api/Project;Lcom/android/tools/lint/detector/api/Project;Ljava/io/File;Lcom/android/resources/ResourceFolderType;)V not found
+	at com.google.i18n.inkstone.ide.android.diagnose.AndroidDiagnoseClient.createXmlContext(AndroidDiagnoseClient.java:101)
+	at com.google.i18n.inkstone.ide.android.diagnose.AndroidDiagnoseClient.getXmlContext(AndroidDiagnoseClient.java:84)
+	at com.google.i18n.inkstone.ide.android.diagnose.AndroidDiagnoseClient.parse(AndroidDiagnoseClient.java:55)
+	at com.google.i18n.inkstone.ide.common.diagnose.DiagnoseController.analyze(DiagnoseController.java:82)
+	at com.google.i18n.inkstone.eclipse.localization.internal.android.DiagnoseRunner.runInCurrentThread(DiagnoseRunner.java:154)
+	at com.google.i18n.inkstone.eclipse.localization.internal.android.DiagnoseRunner.access$000(DiagnoseRunner.java:36)
+	at com.google.i18n.inkstone.eclipse.localization.internal.android.DiagnoseRunner$1.run(DiagnoseRunner.java:121)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:53)
+
+!ENTRY org.eclipse.core.jobs 4 2 2014-10-24 16:17:52.751
+!MESSAGE An internal error occurred during: "Running GTM diagnose".
+!STACK 0
+java.lang.NoSuchMethodError: com.android.tools.lint.detector.api.XmlContext: method <init>(Lcom/android/tools/lint/client/api/LintDriver;Lcom/android/tools/lint/detector/api/Project;Lcom/android/tools/lint/detector/api/Project;Ljava/io/File;Lcom/android/resources/ResourceFolderType;)V not found
+	at com.google.i18n.inkstone.ide.android.diagnose.AndroidDiagnoseClient.createXmlContext(AndroidDiagnoseClient.java:101)
+	at com.google.i18n.inkstone.ide.android.diagnose.AndroidDiagnoseClient.getXmlContext(AndroidDiagnoseClient.java:84)
+	at com.google.i18n.inkstone.ide.android.diagnose.AndroidDiagnoseClient.parse(AndroidDiagnoseClient.java:55)
+	at com.google.i18n.inkstone.ide.common.diagnose.DiagnoseController.analyze(DiagnoseController.java:82)
+	at com.google.i18n.inkstone.eclipse.localization.internal.android.DiagnoseRunner.runInCurrentThread(DiagnoseRunner.java:154)
+	at com.google.i18n.inkstone.eclipse.localization.internal.android.DiagnoseRunner.access$000(DiagnoseRunner.java:36)
+	at com.google.i18n.inkstone.eclipse.localization.internal.android.DiagnoseRunner$1.run(DiagnoseRunner.java:121)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:53)
+
+!ENTRY org.eclipse.core.jobs 4 2 2014-10-24 16:18:16.830
+!MESSAGE An internal error occurred during: "Running GTM diagnose".
+!STACK 0
+java.lang.NoSuchMethodError: com.android.tools.lint.detector.api.XmlContext: method <init>(Lcom/android/tools/lint/client/api/LintDriver;Lcom/android/tools/lint/detector/api/Project;Lcom/android/tools/lint/detector/api/Project;Ljava/io/File;Lcom/android/resources/ResourceFolderType;)V not found
+	at com.google.i18n.inkstone.ide.android.diagnose.AndroidDiagnoseClient.createXmlContext(AndroidDiagnoseClient.java:101)
+	at com.google.i18n.inkstone.ide.android.diagnose.AndroidDiagnoseClient.getXmlContext(AndroidDiagnoseClient.java:84)
+	at com.google.i18n.inkstone.ide.android.diagnose.AndroidDiagnoseClient.parse(AndroidDiagnoseClient.java:55)
+	at com.google.i18n.inkstone.ide.common.diagnose.DiagnoseController.analyze(DiagnoseController.java:82)
+	at com.google.i18n.inkstone.eclipse.localization.internal.android.DiagnoseRunner.runInCurrentThread(DiagnoseRunner.java:154)
+	at com.google.i18n.inkstone.eclipse.localization.internal.android.DiagnoseRunner.access$000(DiagnoseRunner.java:36)
+	at com.google.i18n.inkstone.eclipse.localization.internal.android.DiagnoseRunner$1.run(DiagnoseRunner.java:121)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:53)
+
+!ENTRY org.eclipse.core.jobs 4 2 2014-10-24 16:18:16.845
+!MESSAGE An internal error occurred during: "Running GTM diagnose".
+!STACK 0
+java.lang.NoSuchMethodError: com.android.tools.lint.detector.api.XmlContext: method <init>(Lcom/android/tools/lint/client/api/LintDriver;Lcom/android/tools/lint/detector/api/Project;Lcom/android/tools/lint/detector/api/Project;Ljava/io/File;Lcom/android/resources/ResourceFolderType;)V not found
+	at com.google.i18n.inkstone.ide.android.diagnose.AndroidDiagnoseClient.createXmlContext(AndroidDiagnoseClient.java:101)
+	at com.google.i18n.inkstone.ide.android.diagnose.AndroidDiagnoseClient.getXmlContext(AndroidDiagnoseClient.java:84)
+	at com.google.i18n.inkstone.ide.android.diagnose.AndroidDiagnoseClient.parse(AndroidDiagnoseClient.java:55)
+	at com.google.i18n.inkstone.ide.common.diagnose.DiagnoseController.analyze(DiagnoseController.java:82)
+	at com.google.i18n.inkstone.eclipse.localization.internal.android.DiagnoseRunner.runInCurrentThread(DiagnoseRunner.java:154)
+	at com.google.i18n.inkstone.eclipse.localization.internal.android.DiagnoseRunner.access$000(DiagnoseRunner.java:36)
+	at com.google.i18n.inkstone.eclipse.localization.internal.android.DiagnoseRunner$1.run(DiagnoseRunner.java:121)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:53)
+
+!ENTRY com.android.ide.eclipse.adt 4 0 2014-10-24 16:19:00.340
+!MESSAGE Failed to load properties file for project 'CAR'
+
+!ENTRY org.eclipse.jdt.core 4 4 2014-10-24 16:19:08.040
+!MESSAGE JavaBuilder handling ImageBuilderInternalException while building: CAR
+!STACK 1
+org.eclipse.core.internal.resources.ResourceException: Resource already exists on disk: '/CAR/bin/classes/.gitignore'.
+	at org.eclipse.core.internal.localstore.FileSystemResourceManager.copy(FileSystemResourceManager.java:305)
+	at org.eclipse.core.internal.resources.Resource.copy(Resource.java:566)
+	at org.eclipse.jdt.internal.core.builder.AbstractImageBuilder.copyResource(AbstractImageBuilder.java:381)
+	at org.eclipse.jdt.internal.core.builder.IncrementalImageBuilder.findSourceFiles(IncrementalImageBuilder.java:667)
+	at org.eclipse.jdt.internal.core.builder.IncrementalImageBuilder.findSourceFiles(IncrementalImageBuilder.java:496)
+	at org.eclipse.jdt.internal.core.builder.IncrementalImageBuilder.build(IncrementalImageBuilder.java:96)
+	at org.eclipse.jdt.internal.core.builder.JavaBuilder.buildDeltas(JavaBuilder.java:265)
+	at org.eclipse.jdt.internal.core.builder.JavaBuilder.build(JavaBuilder.java:193)
+	at org.eclipse.core.internal.events.BuildManager$2.run(BuildManager.java:733)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:206)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:246)
+	at org.eclipse.core.internal.events.BuildManager$1.run(BuildManager.java:299)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:302)
+	at org.eclipse.core.internal.events.BuildManager.basicBuildLoop(BuildManager.java:358)
+	at org.eclipse.core.internal.events.BuildManager.build(BuildManager.java:381)
+	at org.eclipse.core.internal.events.AutoBuildJob.doBuild(AutoBuildJob.java:143)
+	at org.eclipse.core.internal.events.AutoBuildJob.run(AutoBuildJob.java:241)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:53)
+!SUBENTRY 1 org.eclipse.core.resources 4 272 2014-10-24 16:19:08.041
+!MESSAGE Resource already exists on disk: '/CAR/bin/classes/.gitignore'.
+
+!ENTRY com.android.ide.eclipse.adt 4 0 2014-10-24 17:09:24.244
+!MESSAGE Failed to load properties file for project 'CriminalIntent'
