@@ -4,7 +4,8 @@ import com.example.criminalintent.R;
 import com.timefourcrime.model.Crime;
 
 import android.os.Bundle;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
+//import android.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -72,4 +73,6 @@ public class CrimeFragment extends Fragment {
 		return view;
 		
 	}
+	
+
 }
