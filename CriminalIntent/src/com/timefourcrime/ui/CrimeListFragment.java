@@ -7,6 +7,7 @@ import com.timefourcrime.model.Crime;
 import com.timefourcrime.model.CrimeLab;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.util.Log;
@@ -37,7 +38,10 @@ public class CrimeListFragment extends ListFragment {
 	@Override
 	public void onListItemClick(ListView list, View view, int position, long id) {
 		Crime crime = ((CrimeAdapter)getListAdapter()).getItem(position);
-		Log.d(TAG, crime.getTitle() + " clicked");
+		
+		Intent intent = new Intent(this.getActivity(), CrimeActivity.class);
+		intent.putExtra(CrimeFragment.EXTRA_CRIME_ID, crime.getId());
+		startActivity(intent);
 	}
 	
 	private class CrimeAdapter extends ArrayAdapter<Crime> {
