@@ -22,6 +22,8 @@ import android.widget.TextView;
 
 public class CrimeListFragment extends ListFragment {
 	private static final String TAG = "CrimeListFragment";
+	private static final int REQUEST_CRIME = 1;
+	
 	private ArrayList<Crime> mCrimes;
 	
 	@Override
@@ -36,12 +38,26 @@ public class CrimeListFragment extends ListFragment {
 	}
 	
 	@Override
+	public void onResume() {
+		super.onResume();
+		((CrimeAdapter)getListAdapter()).notifyDataSetChanged();
+	}
+	
+	@Override
 	public void onListItemClick(ListView list, View view, int position, long id) {
 		Crime crime = ((CrimeAdapter)getListAdapter()).getItem(position);
 		
 		Intent intent = new Intent(this.getActivity(), CrimeActivity.class);
 		intent.putExtra(CrimeFragment.EXTRA_CRIME_ID, crime.getId());
-		startActivity(intent);
+		startActivityForResult(intent, REQUEST_CRIME);
+	}
+	
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if(requestCode == REQUEST_CRIME) {
+			//handle result
+		}
+		super.onActivityResult(requestCode, resultCode, data);
 	}
 	
 	private class CrimeAdapter extends ArrayAdapter<Crime> {

@@ -1,5 +1,7 @@
 package com.timefourcrime.ui;
 
+import java.util.UUID;
+
 import com.example.criminalintent.R;
 
 import android.os.Bundle;
@@ -12,6 +14,8 @@ public class CrimeActivity extends SingleFragmentActivity {
 
 	@Override
 	protected Fragment createFragment() {
-		return new CrimeFragment();
+		
+		UUID crimeId = (UUID)getIntent().getSerializableExtra(CrimeFragment.EXTRA_CRIME_ID);
+		return CrimeFragment.newInstance(crimeId);
 	}
 }

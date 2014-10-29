@@ -6,6 +6,7 @@ import com.example.criminalintent.R;
 import com.timefourcrime.model.Crime;
 import com.timefourcrime.model.CrimeLab;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 //import android.app.Fragment;
@@ -29,11 +30,21 @@ public class CrimeFragment extends Fragment {
 	private Button mDateButton;
 	private CheckBox mSolvedCheckBox;
 	
+	public static CrimeFragment newInstance(UUID crimeId) {
+		Bundle args = new Bundle();
+		
+		args.putSerializable(EXTRA_CRIME_ID, crimeId);
+		CrimeFragment fragment = new CrimeFragment();
+		fragment.setArguments(args);
+		
+		return fragment;
+	}
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		UUID crimeId = (UUID)getActivity().getIntent().getSerializableExtra(EXTRA_CRIME_ID);
+		UUID crimeId = (UUID)getArguments().getSerializable(EXTRA_CRIME_ID);
 		
 		mCrime = CrimeLab.get(getActivity()).getCrime(crimeId);
 	}
@@ -83,6 +94,10 @@ public class CrimeFragment extends Fragment {
 		});
 		return view;
 		
+	}
+	
+	public void returnResult() {
+		getActivity().setResult(Activity.RESULT_OK, null);
 	}
 	
 
