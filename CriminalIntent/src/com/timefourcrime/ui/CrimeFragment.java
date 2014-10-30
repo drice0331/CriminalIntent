@@ -9,6 +9,7 @@ import com.timefourcrime.model.CrimeLab;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 //import android.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -24,6 +25,7 @@ import android.widget.EditText;
 public class CrimeFragment extends Fragment {
 	
 	public static final String EXTRA_CRIME_ID = "com.timeforcrime.ui.CrimeFragment.crime_id";
+	public static final String DIALOG_DATE = "date";
 	
 	private Crime mCrime;
 	private EditText mTitleField;
@@ -79,7 +81,16 @@ public class CrimeFragment extends Fragment {
 		
 		mDateButton = (Button)view.findViewById(R.id.crime_date);
 		mDateButton.setText(mCrime.getDate().toString());
-		mDateButton.setEnabled(false);
+		mDateButton.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				FragmentManager fm = getActivity()
+						.getSupportFragmentManager();
+				DatePickerFragment dialog = DatePickerFragment.newInstance(mCrime.getDate());
+				dialog.show(fm, DIALOG_DATE);
+			}
+		});
 		
 		mSolvedCheckBox = (CheckBox)view.findViewById(R.id.crime_solved);
 		mSolvedCheckBox.setChecked(mCrime.isSolved());
