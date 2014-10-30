@@ -53,7 +53,7 @@ public class DatePickerFragment extends DialogFragment {
 				getArguments().putSerializable(EXTRA_DATE, mDate);
 			}
 			
-		})
+		});
 		
 		return new AlertDialog.Builder(getActivity())
 			.setView(view)
