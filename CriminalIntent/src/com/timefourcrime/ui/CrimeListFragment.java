@@ -6,12 +6,17 @@ import com.example.criminalintent.R;
 import com.timefourcrime.model.Crime;
 import com.timefourcrime.model.CrimeLab;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -25,16 +30,38 @@ public class CrimeListFragment extends ListFragment {
 	private static final int REQUEST_CRIME = 1;
 	
 	private ArrayList<Crime> mCrimes;
+	private boolean mSubtitleVisible;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		getActivity().setTitle(R.string.crimes_title);
+		setHasOptionsMenu(true);
 		
 		mCrimes = CrimeLab.get(getActivity()).getCrimes();
 		
 		CrimeAdapter adapter = new CrimeAdapter(mCrimes);
 		setListAdapter(adapter);
+		
+		setRetainInstance(true);
+		mSubtitleVisible = false;
+	}
+	
+	@TargetApi(11)
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
+		View view = super.onCreateView(inflater, parent, savedInstanceState);
+		view = inflater.inflate(R.layout.fragment_list_crime_empty, parent, false);
+		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+			if(mSubtitleVisible) {
+				getActivity().getActionBar().setSubtitle(R.string.subtitle);
+			}
+		}
+		//this.getListView().setEmptyView(findViewById());
+		
+		
+		
+		return view;
 	}
 	
 	@Override
@@ -58,6 +85,46 @@ public class CrimeListFragment extends ListFragment {
 			//handle result
 		}
 		super.onActivityResult(requestCode, resultCode, data);
+	}
+	
+	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		super.onCreateOptionsMenu(menu, inflater);
+		inflater.inflate(R.menu.fragment_crime_list, menu);
+		MenuItem showSubtitle = menu.findItem(R.id.menu_item_show_subtitle);
+		if(mSubtitleVisible && showSubtitle != null) {
+			showSubtitle.setTitle(R.string.hide_subtitle);
+		}
+	}
+	
+	@TargetApi(11)
+	@Override
+	public boolean onOptionsItemSelected(MenuItem menuItem) {
+		switch(menuItem.getItemId()) {
+			case R.id.menu_item_new_crime:
+				Crime crime = new Crime();
+				CrimeLab.get(getActivity()).addCrime(crime);
+				Intent intent = new Intent(getActivity(), CrimePagerActivity.class);
+				intent.putExtra(CrimeFragment.EXTRA_CRIME_ID, crime.getId());
+				startActivityForResult(intent, 0);
+				return true;
+			case R.id.menu_item_show_subtitle:
+				if(getActivity().getActionBar().getSubtitle() == null)
+				{
+					getActivity().getActionBar().setSubtitle(R.string.subtitle);
+					menuItem.setTitle(R.string.hide_subtitle);
+					mSubtitleVisible = true;
+				}
+				else {
+					getActivity().getActionBar().setSubtitle(null);
+					menuItem.setTitle(R.string.show_subtitle);
+					mSubtitleVisible = false;
+				}
+				return true;
+			default:
+				return super.onOptionsItemSelected(menuItem);
+			}
+		
 	}
 	
 	private class CrimeAdapter extends ArrayAdapter<Crime> {

@@ -7,15 +7,19 @@ import com.example.criminalintent.R;
 import com.timefourcrime.model.Crime;
 import com.timefourcrime.model.CrimeLab;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.NavUtils;
 //import android.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -49,15 +53,26 @@ public class CrimeFragment extends Fragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
+		setHasOptionsMenu(true);
+		
 		UUID crimeId = (UUID)getArguments().getSerializable(EXTRA_CRIME_ID);
 		
 		mCrime = CrimeLab.get(getActivity()).getCrime(crimeId);
 	}
 	
+	@TargetApi(11)
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup parent, 
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_crime, parent, false);	
+		
+		//set home action bar button as up/back button
+		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+			if(NavUtils.getParentActivityName(getActivity()) != null ) {
+				getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
+			}
+		}
+		
 		mTitleField = (EditText)view.findViewById(R.id.crime_title);
 		mTitleField.setText(mCrime.getTitle());
 		mTitleField.addTextChangedListener(new TextWatcher() {
@@ -133,4 +148,18 @@ public class CrimeFragment extends Fragment {
 		mDateButton.setText(mCrime.getDate().toString());
 	}
 
+	@Override
+	public boolean onOptionsItemSelected(MenuItem menuitem) {
+		switch(menuitem.getItemId()) {
+			case android.R.id.home:
+				if(NavUtils.getParentActivityName(getActivity()) != null) {
+					NavUtils.navigateUpFromSameTask(getActivity());
+				}
+				return true;
+			default:
+				return super.onOptionsItemSelected(menuitem);
+		}
+		
+ 	}
+	
 }
