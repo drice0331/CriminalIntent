@@ -126,6 +126,13 @@ public class CrimeFragment extends Fragment {
 		
 	}
 	
+	@Override
+	public void onPause() {
+		super.onPause();
+		//saving crimes to sd card (frag -> crimelab -> criminalintentjsonserializer -> write to sd card)
+		CrimeLab.get(getActivity()).saveCrimes();
+	}
+	
 	public void returnResult() {
 		getActivity().setResult(Activity.RESULT_OK, null);
 	}
