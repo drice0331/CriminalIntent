@@ -27,9 +27,7 @@ public class CrimeLab {
 		} catch (Exception e) {
 			mCrimes = new ArrayList<Crime>();
 			Log.e(TAG, "Error loading crimes: ", e);
-		}
-		
-		mCrimes = new ArrayList<Crime>();
+		}		
 	}
 	
 	public static CrimeLab get(Context c) {
