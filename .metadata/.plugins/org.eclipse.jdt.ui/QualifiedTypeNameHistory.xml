@@ -6,4 +6,18 @@
 <fullyQualifiedTypeName name="java.util.Date"/>
 <fullyQualifiedTypeName name="android.view.Menu"/>
 <fullyQualifiedTypeName name="android.view.MenuInflater"/>
+<fullyQualifiedTypeName name="com.timefourcrime.util.CriminalIntentJSONSerializer"/>
+<fullyQualifiedTypeName name="android.util.Log"/>
+<fullyQualifiedTypeName name="java.io.BufferedReader"/>
+<fullyQualifiedTypeName name="java.io.InputStream"/>
+<fullyQualifiedTypeName name="java.io.InputStreamReader"/>
+<fullyQualifiedTypeName name="org.json.JSONTokener"/>
+<fullyQualifiedTypeName name="java.io.FileNotFoundException"/>
+<fullyQualifiedTypeName name="com.example.criminalintent.R.menu"/>
+<fullyQualifiedTypeName name="android.view.ContextMenu"/>
+<fullyQualifiedTypeName name="android.view.ContextMenu.ContextMenuInfo"/>
+<fullyQualifiedTypeName name="android.R"/>
+<fullyQualifiedTypeName name="android.R.id"/>
+<fullyQualifiedTypeName name="android.widget.AdapterView.AdapterContextMenuInfo"/>
+<fullyQualifiedTypeName name="com.example.criminalintent.R.id"/>
 </qualifiedTypeNameHistroy>
