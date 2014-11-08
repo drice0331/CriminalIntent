@@ -72,6 +72,7 @@ public class DatePickerFragment extends DialogFragment {
 							sendResult(Activity.RESULT_OK);
 						}
 					})
+			
 			.create();
 	}
 	
