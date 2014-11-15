@@ -7,11 +7,13 @@ import com.example.criminalintent.R;
 import com.timefourcrime.model.Crime;
 import com.timefourcrime.model.CrimeLab;
 import com.timefourcrime.model.Photo;
+import com.timefourcrime.util.PictureUtils;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -31,12 +33,14 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 
 public class CrimeFragment extends Fragment {
 	
 	private static final String TAG = "CrimeFragment";
 	public static final String EXTRA_CRIME_ID = "com.timeforcrime.ui.CrimeFragment.crime_id";
 	private static final String DIALOG_DATE = "date";
+	private static final String DIALOG_IMAGE = "image";
 	private static final int REQUEST_DATE = 0;
 	private static final int REQUEST_PHOTO = 1;
 	
@@ -45,6 +49,7 @@ public class CrimeFragment extends Fragment {
 	private Button mDateButton;
 	private CheckBox mSolvedCheckBox;
 	private ImageButton mPhotoButton;
+	private ImageView mPhotoView;
 	
 	public static CrimeFragment newInstance(UUID crimeId) {
 		Bundle args = new Bundle();
@@ -141,6 +146,21 @@ public class CrimeFragment extends Fragment {
 			
 		});
 		
+		mPhotoView = (ImageView)view.findViewById(R.id.crime_imageView);
+		mPhotoView.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Photo photo = mCrime.getPhoto();
+				if(photo == null) {
+					return;
+				}
+				
+				FragmentManager fm = getActivity().getSupportFragmentManager();
+				String path = getActivity().getFileStreamPath(photo.getFilename()).getAbsolutePath();
+				ImageFragment.newInstance(path).show(fm, DIALOG_IMAGE);
+			}
+		});
 		//If camera not available then disable camera functionality
 		PackageManager pm = getActivity().getPackageManager();
 		if(!pm.hasSystemFeature(PackageManager.FEATURE_CAMERA) && 
@@ -153,10 +173,22 @@ public class CrimeFragment extends Fragment {
 	}
 	
 	@Override
+	public void onStart() {
+		super.onStart();
+		showPhoto();
+	}
+	
+	@Override
 	public void onPause() {
 		super.onPause();
 		//saving crimes to sd card (frag -> crimelab -> criminalintentjsonserializer -> write to sd card)
 		CrimeLab.get(getActivity()).saveCrimes();
+	}
+	
+	@Override
+	public void onStop() {
+		super.onStop();
+		PictureUtils.cleanImageView(mPhotoView);
 	}
 	
 	public void returnResult() {
@@ -179,7 +211,7 @@ public class CrimeFragment extends Fragment {
 			if(filename != null) {
 				Photo photo = new Photo(filename);
 				mCrime.setPhoto(photo);
-				Log.i(TAG, "CRIME: " + mCrime.getTitle() + " has a photo");
+				showPhoto();
 			}
 		}
 	}
@@ -201,5 +233,17 @@ public class CrimeFragment extends Fragment {
 		}
 		
  	}
+	
+	private void showPhoto() {
+		//(Re)set the image button image based on our photo
+		Photo photo = mCrime.getPhoto();
+		BitmapDrawable b = null;
+		if(photo != null) {
+			String path = getActivity()
+					.getFileStreamPath(photo.getFilename()).getAbsolutePath();
+			b = PictureUtils.getScaledDrawable(getActivity(), path);
+		}
+		mPhotoView.setImageDrawable(b);
+	}
 	
 }
