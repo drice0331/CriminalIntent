@@ -7,6 +7,7 @@ public class Photo {
 
 	private static final String JSON_FILENAME = "filename";
 	
+	private int orientation = 0;
 	private String mFilename;
 	
 	//Create a photo representing an existing file on disk 
@@ -26,5 +27,13 @@ public class Photo {
 	
 	public String getFilename() {
 		return mFilename;
+	}
+	
+	public void setOrientation(int orientation) {
+		this.orientation = orientation;
+	}
+	
+	public int getOrientation() {
+		return orientation;
 	}
 }

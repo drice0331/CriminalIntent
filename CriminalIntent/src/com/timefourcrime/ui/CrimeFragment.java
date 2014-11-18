@@ -1,5 +1,7 @@
 package com.timefourcrime.ui;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.Date;
 import java.util.UUID;
 
@@ -13,9 +15,15 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.media.ExifInterface;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.NavUtils;
@@ -158,7 +166,7 @@ public class CrimeFragment extends Fragment {
 				
 				FragmentManager fm = getActivity().getSupportFragmentManager();
 				String path = getActivity().getFileStreamPath(photo.getFilename()).getAbsolutePath();
-				ImageFragment.newInstance(path).show(fm, DIALOG_IMAGE);
+				ImageFragment.newInstance(path, photo.getOrientation()).show(fm, DIALOG_IMAGE);
 			}
 		});
 		//If camera not available then disable camera functionality
@@ -205,11 +213,45 @@ public class CrimeFragment extends Fragment {
 			Date date = (Date)data.getSerializableExtra(DatePickerFragment.EXTRA_DATE);
 			mCrime.setDate(date);
 			updateDate();
-		} else if(resultCode == REQUEST_PHOTO) {
+		} else if(requestCode == REQUEST_PHOTO) {
 			//Create a new photo object and attach it to the crime
 			String filename = data.getStringExtra(CrimeCameraFragment.EXTRA_PHOTO_FILENAME);
 			if(filename != null) {
+				
+				//Get orientation of photo
+				Uri selectedImage = data.getData();
+                /*String[] orientationColumn = {MediaStore.Images.Media.ORIENTATION};
+                Cursor cur = getActivity().getContentResolver().query(selectedImage, orientationColumn, null, null, null);
+                int orientation = -1;
+                if (cur != null && cur.moveToFirst()) {
+                    orientation = cur.getInt(cur.getColumnIndex(orientationColumn[0]));
+                }
+                */
+				BitmapFactory.Options bounds = new BitmapFactory.Options();
+				bounds.inJustDecodeBounds = true;
+				BitmapFactory.decodeFile(filename, bounds);
+
+				BitmapFactory.Options opts = new BitmapFactory.Options();
+				Bitmap bm = BitmapFactory.decodeFile(filename, opts);
+				ExifInterface exif;
+				String orientString = "";
+				try {
+					exif = new ExifInterface(filename);
+					orientString = exif.getAttribute(ExifInterface.TAG_ORIENTATION);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				int orientation = orientString != null ? Integer.parseInt(orientString) :  ExifInterface.ORIENTATION_NORMAL;
+
+				int rotationAngle = 0;
+				if (orientation == ExifInterface.ORIENTATION_ROTATE_90) rotationAngle = 1;
+				if (orientation == ExifInterface.ORIENTATION_ROTATE_180) rotationAngle = 2;
+				if (orientation == ExifInterface.ORIENTATION_ROTATE_270) rotationAngle = 3;
+				
+                //
 				Photo photo = new Photo(filename);
+				photo.setOrientation(rotationAngle);
 				mCrime.setPhoto(photo);
 				showPhoto();
 			}
@@ -241,7 +283,7 @@ public class CrimeFragment extends Fragment {
 		if(photo != null) {
 			String path = getActivity()
 					.getFileStreamPath(photo.getFilename()).getAbsolutePath();
-			b = PictureUtils.getScaledDrawable(getActivity(), path);
+			b = PictureUtils.getScaledDrawable(getActivity(), path, photo.getOrientation());
 		}
 		mPhotoView.setImageDrawable(b);
 	}

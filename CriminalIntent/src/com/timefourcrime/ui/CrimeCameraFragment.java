@@ -133,6 +133,7 @@ public class CrimeCameraFragment extends Fragment {
 				mCamera.setParameters(parameters);
 				try {
 					mCamera.startPreview();
+					Log.d(TAG, "STARTING PREVIEW");
 				} catch (Exception e) {
 					Log.e(TAG, "Could not start preview", e);
 					mCamera.release();
@@ -146,6 +147,7 @@ public class CrimeCameraFragment extends Fragment {
 				//can no longer display on this surface, so stop preview
 				if(mCamera != null) {
 					mCamera.stopPreview();
+					
 				}				
 			}
 			
@@ -159,17 +161,21 @@ public class CrimeCameraFragment extends Fragment {
 	public void onResume() {
 		super.onResume();
 		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
-			mCamera.open(0);
+			//mCamera.open(0);
+			mCamera = Camera.open(0);
 		}
 		else {
-			mCamera.open();
+			//mCamera.open();
+			mCamera = Camera.open();
 		}
+		//mCamera.startPreview();
 	}
 	
 	@Override
 	public void onPause() {
 		super.onPause();
 		if(mCamera != null) {
+			//camera.stopPreview();
 			mCamera.release();
 			mCamera = null;
 		}

@@ -3,6 +3,8 @@ package com.timefourcrime.util;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.view.Display;
 import android.widget.ImageView;
@@ -14,8 +16,10 @@ public class PictureUtils {
 	 */
 	
 	@SuppressWarnings("deprecation")
-	public static BitmapDrawable getScaledDrawable(Activity activity, String path) {
+	public static BitmapDrawable getScaledDrawable(Activity activity, String path, int orientation) {
 		Display display = activity.getWindowManager().getDefaultDisplay();
+		
+		Point point;
 		float destWidth = display.getWidth();
 		float destHeight = display.getHeight();
 		
@@ -40,6 +44,11 @@ public class PictureUtils {
 		options.inSampleSize = inSampleSize;
 		
 		Bitmap bitmap = BitmapFactory.decodeFile(path, options);
+		
+//		Matrix matrix = new Matrix();
+//		matrix.postRotate(orientation);
+//      Bitmap rotatedBitmap = Bitmap.createBitmap(bitmap , 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+		
 		
 		return new BitmapDrawable(activity.getResources(), bitmap);
 	}
