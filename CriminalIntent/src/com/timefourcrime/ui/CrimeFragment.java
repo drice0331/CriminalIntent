@@ -23,6 +23,7 @@ import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -30,6 +31,7 @@ import android.support.v4.app.NavUtils;
 //import android.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -51,6 +53,7 @@ public class CrimeFragment extends Fragment {
 	private static final String DIALOG_IMAGE = "image";
 	private static final int REQUEST_DATE = 0;
 	private static final int REQUEST_PHOTO = 1;
+	private static final int REQUEST_CONTACT = 2;
 	
 	private Crime mCrime;
 	private EditText mTitleField;
@@ -58,6 +61,8 @@ public class CrimeFragment extends Fragment {
 	private CheckBox mSolvedCheckBox;
 	private ImageButton mPhotoButton;
 	private ImageView mPhotoView;
+	private Button reportButton;
+	private Button mSuspectButton;
 	
 	public static CrimeFragment newInstance(UUID crimeId) {
 		Bundle args = new Bundle();
@@ -169,11 +174,41 @@ public class CrimeFragment extends Fragment {
 				ImageFragment.newInstance(path, photo.getOrientation()).show(fm, DIALOG_IMAGE);
 			}
 		});
+		
 		//If camera not available then disable camera functionality
 		PackageManager pm = getActivity().getPackageManager();
 		if(!pm.hasSystemFeature(PackageManager.FEATURE_CAMERA) && 
 				!pm.hasSystemFeature(PackageManager.FEATURE_CAMERA_FRONT)) {
 			mPhotoButton.setEnabled(false);
+		}
+		
+		reportButton = (Button)view.findViewById(R.id.crime_reportButton);
+		reportButton.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(Intent.ACTION_SEND);
+				intent.setType("text/plain");
+				intent.putExtra(Intent.EXTRA_TEXT, getCrimeReport());
+				intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.crime_report_subject));
+				intent = Intent.createChooser(intent, getString(R.string.send_report));
+				startActivity(intent);
+			}
+		});
+		
+		mSuspectButton = (Button)view.findViewById(R.id.crime_suspectButton);
+		mSuspectButton.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(Intent.ACTION_PICK, 
+						ContactsContract.Contacts.CONTENT_URI);
+				startActivityForResult(intent, REQUEST_CONTACT);
+			}
+		});
+		
+		if(mCrime.getSuspect() != null) {
+			mSuspectButton.setText(mCrime.getSuspect());
 		}
 		
 		return view;
@@ -255,6 +290,30 @@ public class CrimeFragment extends Fragment {
 				mCrime.setPhoto(photo);
 				showPhoto();
 			}
+		} else if(requestCode == REQUEST_CONTACT) {
+			Uri contactUri = data.getData();
+			
+			//Specify which fields you want your query to return values for.
+			String[] queryFields = new String[] {
+					ContactsContract.Contacts.DISPLAY_NAME
+			};
+			//Perform your query - the contactUri is like a "where" clause
+			Cursor c = getActivity().getContentResolver()
+					.query(contactUri, queryFields, null, null, null);
+			
+			//Double-check that you actually got results
+			if(c.getCount() == 0) {
+				c.close();
+				return;
+			}
+			
+			//Pull out the first column of the first row of data that
+			//is your suspect's name
+			c.moveToFirst();
+			String suspect = c.getString(0);
+			mCrime.setSuspect(suspect);
+			mSuspectButton.setText(suspect);
+			c.close();
 		}
 	}
 	
@@ -288,4 +347,28 @@ public class CrimeFragment extends Fragment {
 		mPhotoView.setImageDrawable(b);
 	}
 	
+	private String getCrimeReport() {
+		String solvedString = null;
+		if(mCrime.isSolved()) {
+			solvedString = getString(R.string.crime_report_solved);
+		} else {
+			solvedString = getString(R.string.crime_report_unsolved);
+		}
+		
+		String dateFormat = "EEE, MMM dd";
+		String dateString = DateFormat.format(dateFormat, mCrime.getDate()).toString();
+		
+		String suspect = mCrime.getSuspect();
+		if(suspect == null) {
+			suspect = getString(R.string.crime_report_no_suspect);
+		} else {
+			suspect = getString(R.string.crime_report_suspect, suspect);
+		}
+		
+		String report = getString(R.string.crime_report, 
+				mCrime.getTitle(), dateString, solvedString, suspect);
+		
+		return report;
+		
+	}
 }

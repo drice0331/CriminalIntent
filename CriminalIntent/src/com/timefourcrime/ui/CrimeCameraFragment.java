@@ -13,11 +13,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.hardware.Camera;
 import android.hardware.Camera.Size;
+import android.hardware.SensorManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.OrientationEventListener;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
@@ -32,6 +34,9 @@ public class CrimeCameraFragment extends Fragment {
 	private Camera mCamera;
 	private SurfaceView mSurfaceView;
 	private View mProgressContainer;
+	OrientationEventListener orientationEventListener;
+	int deviceOrientation;
+	int presentOrientation;
 	
 	//Camera Callbacks
 	private Camera.ShutterCallback mShutterCallback = new Camera.ShutterCallback() {
@@ -179,6 +184,24 @@ public class CrimeCameraFragment extends Fragment {
 			mCamera.release();
 			mCamera = null;
 		}
+	}
+	
+	private void orientationListener(){
+		orientationEventListener = new OrientationEventListener(getActivity(), SensorManager.SENSOR_DELAY_NORMAL) 
+	    { 
+		     @Override
+		     public void onOrientationChanged(int orientation) 
+		     {
+		    	 deviceOrientation = orientation;
+		     }
+	    };
+	
+	    if(orientationEventListener.canDetectOrientation())
+	    {
+	    	orientationEventListener.enable();
+	    }	    
+	        
+	    presentOrientation = 90*(deviceOrientation/360)%360;
 	}
 	
 	private Size getBestSupportedSize(List<Size> sizes, int width, int height) {
