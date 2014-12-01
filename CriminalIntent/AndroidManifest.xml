@@ -35,7 +35,7 @@
         </activity>
         <activity
             android:name="com.timefourcrime.ui.CrimeActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.timefourcrime.ui.CrimeListActivity" />
@@ -43,7 +43,7 @@
         <activity
             android:name="com.timefourcrime.ui.CrimeCameraActivity"
             android:label="@string/app_name"
-            android:screenOrientation="landscape" >
+            android:screenOrientation="landscape">
         </activity>
     </application>
 

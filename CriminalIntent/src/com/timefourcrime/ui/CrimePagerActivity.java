@@ -14,7 +14,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 
-public class CrimePagerActivity extends FragmentActivity {
+public class CrimePagerActivity extends FragmentActivity implements CrimeFragment.Callbacks {
 
 	private ViewPager mViewPager;
 	private ArrayList<Crime> mCrimes;
@@ -23,6 +23,9 @@ public class CrimePagerActivity extends FragmentActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
+		if(savedInstanceState != null) {
+		}
+			
 		mViewPager = new ViewPager(this);
 		mViewPager.setId(R.id.viewPager);
 		setContentView(mViewPager);
@@ -76,5 +79,18 @@ public class CrimePagerActivity extends FragmentActivity {
 				
 			}
 		});
+		
+		
+	}
+	
+	@Override
+	public void onSaveInstanceState(Bundle savedInstanceState) {
+		super.onSaveInstanceState(savedInstanceState);
+	}
+
+	@Override
+	public void onCrimeUpdated(Crime crime) {
+		// TODO Auto-generated method stub
+		
 	}
 }

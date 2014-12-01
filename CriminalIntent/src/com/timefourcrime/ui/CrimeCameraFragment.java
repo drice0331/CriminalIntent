@@ -177,6 +177,12 @@ public class CrimeCameraFragment extends Fragment {
 		//mCamera.startPreview();
 	}
 	
+	
+	@Override
+	public void onSaveInstanceState(Bundle savedInstanceState) {
+		super.onSaveInstanceState(savedInstanceState);
+	}
+	
 	@Override
 	public void onPause() {
 		super.onPause();
