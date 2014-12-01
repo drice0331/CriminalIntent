@@ -16,10 +16,9 @@ public class ImageFragment extends DialogFragment {
 	
 	private ImageView mImageView;
 	
-	public static ImageFragment newInstance(String imagePath, int orientation) {
+	public static ImageFragment newInstance(String imagePath) {
 		Bundle args = new Bundle();
 		args.putSerializable(EXTRA_IMAGE_PATH, imagePath);
-		args.putInt(IMAGE_ORIENTATION, orientation);
 		ImageFragment fragment = new ImageFragment();
 		fragment.setArguments(args);
 		fragment.setStyle(DialogFragment.STYLE_NO_TITLE, 0);
@@ -32,8 +31,7 @@ public class ImageFragment extends DialogFragment {
 		
 		mImageView = new ImageView(getActivity());
 		String path = (String)getArguments().getSerializable(EXTRA_IMAGE_PATH);
-		int orientation = getArguments().getInt(IMAGE_ORIENTATION);
-		BitmapDrawable image = PictureUtils.getScaledDrawable(getActivity(), path, orientation);
+		BitmapDrawable image = PictureUtils.getScaledDrawable(getActivity(), path);
 		
 		mImageView.setImageDrawable(image);
 		

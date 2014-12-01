@@ -53,6 +53,11 @@ public class TimePickerFragment extends DialogFragment {
 				Calendar cal = Calendar.getInstance();
 				cal.set(Calendar.HOUR, hourOfDay);
 				cal.set(Calendar.MINUTE, minute);
+				if(hourOfDay >= 12) {
+					cal.set(Calendar.AM_PM, Calendar.PM);
+				} else {
+					cal.set(Calendar.AM_PM, Calendar.AM);
+				}
 				mDate = cal.getTime();
 
 			}

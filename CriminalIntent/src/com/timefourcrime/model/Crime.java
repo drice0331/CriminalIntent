@@ -13,7 +13,7 @@ public class Crime {
 	private static final String JSON_SOLVED = "solved";
 	private static final String JSON_DATE = "date";
 	private static final String JSON_PHOTO = "photo";
-	private static final String JSON_SUSPECT = "photo";
+	private static final String JSON_SUSPECT = "suspect";
 	
 	private String mTitle;
 	private UUID mId;

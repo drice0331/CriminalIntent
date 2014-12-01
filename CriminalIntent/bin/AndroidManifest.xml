@@ -8,6 +8,7 @@
         android:targetSdkVersion="19" />
 
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
 
     <uses-feature android:name="android.hardware.camera" />
 
@@ -33,9 +34,16 @@
                 android:value="com.timefourcrime.ui.CrimeListActivity" />
         </activity>
         <activity
+            android:name="com.timefourcrime.ui.CrimeActivity"
+            android:label="@string/app_name" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.timefourcrime.ui.CrimeListActivity" />
+        </activity>
+        <activity
             android:name="com.timefourcrime.ui.CrimeCameraActivity"
-            android:label="@string/app_name" 
-            android:screenOrientation="landscape">
+            android:label="@string/app_name"
+            android:screenOrientation="landscape" >
         </activity>
     </application>
 

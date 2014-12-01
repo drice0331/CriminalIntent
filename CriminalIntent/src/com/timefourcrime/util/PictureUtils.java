@@ -16,7 +16,7 @@ public class PictureUtils {
 	 */
 	
 	@SuppressWarnings("deprecation")
-	public static BitmapDrawable getScaledDrawable(Activity activity, String path, int orientation) {
+	public static BitmapDrawable getScaledDrawable(Activity activity, String path) {
 		Display display = activity.getWindowManager().getDefaultDisplay();
 		
 		Point point;
@@ -34,9 +34,9 @@ public class PictureUtils {
 		int inSampleSize = 1;
 		if(srcHeight > destHeight || srcWidth > destWidth) {
 			if(srcWidth > srcHeight) {
-				inSampleSize = Math.round(srcHeight / destHeight);
+				inSampleSize = Math.round((float)srcHeight / (float)destHeight);
 			} else {
-				inSampleSize = Math.round(srcWidth/destWidth);
+				inSampleSize = Math.round((float)srcWidth/(float)destWidth);
 			}
 		}
 		

@@ -2,6 +2,7 @@ package com.timefourcrime.ui;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
 
@@ -50,8 +51,10 @@ public class CrimeFragment extends Fragment {
 	private static final String TAG = "CrimeFragment";
 	public static final String EXTRA_CRIME_ID = "com.timeforcrime.ui.CrimeFragment.crime_id";
 	private static final String DIALOG_DATE = "date";
+	private static final String DIALOG_TIME = "time";
 	private static final String DIALOG_IMAGE = "image";
 	private static final int REQUEST_DATE = 0;
+	private static final int REQUEST_TIME = 4;
 	private static final int REQUEST_PHOTO = 1;
 	private static final int REQUEST_CONTACT = 2;
 	
@@ -171,7 +174,7 @@ public class CrimeFragment extends Fragment {
 				
 				FragmentManager fm = getActivity().getSupportFragmentManager();
 				String path = getActivity().getFileStreamPath(photo.getFilename()).getAbsolutePath();
-				ImageFragment.newInstance(path, photo.getOrientation()).show(fm, DIALOG_IMAGE);
+				ImageFragment.newInstance(path).show(fm, DIALOG_IMAGE);
 			}
 		});
 		
@@ -248,45 +251,39 @@ public class CrimeFragment extends Fragment {
 			Date date = (Date)data.getSerializableExtra(DatePickerFragment.EXTRA_DATE);
 			mCrime.setDate(date);
 			updateDate();
+			
+			FragmentManager fm = getActivity()
+					.getSupportFragmentManager();
+			TimePickerFragment dialog = TimePickerFragment.newInstance(mCrime.getDate());
+			dialog.setTargetFragment(CrimeFragment.this, REQUEST_TIME);
+			dialog.show(fm, DIALOG_TIME);
+			
+		} else if(requestCode == REQUEST_TIME) {
+			Date timedate = (Date)data.getSerializableExtra(TimePickerFragment.EXTRA_TIME);
+			Date date = mCrime.getDate();
+			Calendar datecal = Calendar.getInstance();
+			Calendar timecal = Calendar.getInstance();
+			datecal.setTime(date);
+			timecal.setTime(timedate);
+			datecal.set(Calendar.HOUR, timecal.get(Calendar.HOUR));
+			datecal.set(Calendar.MINUTE, timecal.get(Calendar.MINUTE));
+			datecal.set(Calendar.AM_PM, timecal.get(Calendar.AM_PM));
+			
+			date = datecal.getTime();
+			mCrime.setDate(date);
+			updateDate();
+			
+			//Date date = mCrime.getDate();
+			//date.setHours(timedate.getHours());
+			//date.setMinutes(timedate.getMinutes());
+			//mCrime.setDate(date);
+			//updateDate();
 		} else if(requestCode == REQUEST_PHOTO) {
 			//Create a new photo object and attach it to the crime
 			String filename = data.getStringExtra(CrimeCameraFragment.EXTRA_PHOTO_FILENAME);
 			if(filename != null) {
-				
-				//Get orientation of photo
-				Uri selectedImage = data.getData();
-                /*String[] orientationColumn = {MediaStore.Images.Media.ORIENTATION};
-                Cursor cur = getActivity().getContentResolver().query(selectedImage, orientationColumn, null, null, null);
-                int orientation = -1;
-                if (cur != null && cur.moveToFirst()) {
-                    orientation = cur.getInt(cur.getColumnIndex(orientationColumn[0]));
-                }
-                */
-				BitmapFactory.Options bounds = new BitmapFactory.Options();
-				bounds.inJustDecodeBounds = true;
-				BitmapFactory.decodeFile(filename, bounds);
 
-				BitmapFactory.Options opts = new BitmapFactory.Options();
-				Bitmap bm = BitmapFactory.decodeFile(filename, opts);
-				ExifInterface exif;
-				String orientString = "";
-				try {
-					exif = new ExifInterface(filename);
-					orientString = exif.getAttribute(ExifInterface.TAG_ORIENTATION);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				int orientation = orientString != null ? Integer.parseInt(orientString) :  ExifInterface.ORIENTATION_NORMAL;
-
-				int rotationAngle = 0;
-				if (orientation == ExifInterface.ORIENTATION_ROTATE_90) rotationAngle = 1;
-				if (orientation == ExifInterface.ORIENTATION_ROTATE_180) rotationAngle = 2;
-				if (orientation == ExifInterface.ORIENTATION_ROTATE_270) rotationAngle = 3;
-				
-                //
 				Photo photo = new Photo(filename);
-				photo.setOrientation(rotationAngle);
 				mCrime.setPhoto(photo);
 				showPhoto();
 			}
@@ -319,6 +316,7 @@ public class CrimeFragment extends Fragment {
 	
 	private void updateDate() {
 		mDateButton.setText(mCrime.getDate().toString());
+		//mTimeButton.setText(mCrime.getDate().getHours() + ":" + mCrime.getDate().getMinutes());
 	}
 
 	@Override
@@ -342,7 +340,7 @@ public class CrimeFragment extends Fragment {
 		if(photo != null) {
 			String path = getActivity()
 					.getFileStreamPath(photo.getFilename()).getAbsolutePath();
-			b = PictureUtils.getScaledDrawable(getActivity(), path, photo.getOrientation());
+			b = PictureUtils.getScaledDrawable(getActivity(), path);
 		}
 		mPhotoView.setImageDrawable(b);
 	}

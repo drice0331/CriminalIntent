@@ -34,6 +34,7 @@ public class CrimeCameraFragment extends Fragment {
 	private Camera mCamera;
 	private SurfaceView mSurfaceView;
 	private View mProgressContainer;
+	
 	OrientationEventListener orientationEventListener;
 	int deviceOrientation;
 	int presentOrientation;
@@ -157,7 +158,7 @@ public class CrimeCameraFragment extends Fragment {
 			}
 			
 		});
-		
+				
 		return view;
 	}
 	
