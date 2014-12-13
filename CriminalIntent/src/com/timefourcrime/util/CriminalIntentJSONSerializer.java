@@ -17,6 +17,7 @@ import org.json.JSONTokener;
 import com.timefourcrime.model.Crime;
 
 import android.content.Context;
+import android.util.Log;
 
 public class CriminalIntentJSONSerializer {
 	
@@ -60,6 +61,7 @@ public class CriminalIntentJSONSerializer {
 			while((line = reader.readLine()) != null) {
 				//Line breaks are omitted and irrelevant
 				jsonString.append(line);
+				Log.d("sadf", "line - " + line);
 			}
 			//Parse the JSON using JSONTokener
 			JSONArray array = (JSONArray) new JSONTokener(jsonString.toString()).nextValue();
