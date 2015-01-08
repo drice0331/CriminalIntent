@@ -1,13 +1,19 @@
 package com.example.photogallery;
 
+import java.io.IOException;
+
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 
 public class PhotoGalleryFragment extends Fragment {
+	private static final String TAG = "PhotoGalleryFragment";
+	
 	GridView mGridView;
 	
 	@Override
@@ -15,6 +21,7 @@ public class PhotoGalleryFragment extends Fragment {
 		super.onCreate(savedInstanceState);
 		
 		setRetainInstance(true);
+		new FetchItemsTask().execute();
 	}
 	
 	@Override
@@ -24,5 +31,15 @@ public class PhotoGalleryFragment extends Fragment {
 		mGridView = (GridView)view.findViewWithTag(R.id.gridView);
 		
 		return view;
+	}
+	
+	private class FetchItemsTask extends AsyncTask<Void,Void,Void> {
+
+		@Override
+		protected Void doInBackground(Void... params) {
+			new FlickrFetchr().fetchItems();
+			return null;
+		}
+		
 	}
 }
