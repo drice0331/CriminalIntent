@@ -1,7 +1,6 @@
 package com.example.photogallery;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -10,7 +9,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.GridView;
 
 public class PhotoGalleryFragment extends Fragment {
@@ -18,16 +16,12 @@ public class PhotoGalleryFragment extends Fragment {
 	
 	GridView mGridView;
 	
-	ArrayList<GalleryItem> mItems;
-	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
 		setRetainInstance(true);
 		new FetchItemsTask().execute();
-		
-		setUpAdapter();
 	}
 	
 	@Override
@@ -39,28 +33,12 @@ public class PhotoGalleryFragment extends Fragment {
 		return view;
 	}
 	
-	void setUpAdapter() {
-		if(getActivity() == null || mGridView == null) return;
-		
-		if(mItems != null) {
-			mGridView.setAdapter(new ArrayAdapter<GalleryItem>(getActivity(), android.R.layout.simple_gallery_item, 
-					mItems));
-		} 
-		else {
-			mGridView.setAdapter(null);
-		}
-	}
-	
-	private class FetchItemsTask extends AsyncTask<Void,Void,ArrayList<GalleryItem>> {
+	private class FetchItemsTask extends AsyncTask<Void,Void,Void> {
 
 		@Override
-		protected ArrayList<GalleryItem> doInBackground(Void... params) {
-			return new FlickrFetchr().fetchItems();
-		}
-		
-		@Override
-		protected void onPostExecute(ArrayList<GalleryItem> items) {
-			setUpAdapter();
+		protected Void doInBackground(Void... params) {
+			new FlickrFetchr().fetchItems();
+			return null;
 		}
 		
 	}

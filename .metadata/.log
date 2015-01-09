@@ -4069,3 +4069,29 @@ org.eclipse.core.internal.resources.ResourceException: Resource '/PhotoGallery/r
 	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:53)
 !SUBENTRY 1 org.eclipse.core.resources 4 368 2015-01-07 16:03:17.819
 !MESSAGE Resource '/PhotoGallery/res' does not exist.
+!SESSION 2015-01-08 16:04:12.103 -----------------------------------------------
+eclipse.buildId=4.3.2.M20140221-1700
+java.version=1.8.0_25
+java.vendor=Oracle Corporation
+BootLoader constants: OS=macosx, ARCH=x86_64, WS=cocoa, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.standard.product -product org.eclipse.epp.package.standard.product -keyring /Users/drice1/.eclipse_keyring -showlocation
+Command-line arguments:  -os macosx -ws cocoa -arch x86_64 -product org.eclipse.epp.package.standard.product -data /Users/drice1/Documents/CriminalIntent -product org.eclipse.epp.package.standard.product -keyring /Users/drice1/.eclipse_keyring -showlocation
+
+!ENTRY org.eclipse.core.resources 2 10035 2015-01-08 16:04:13.200
+!MESSAGE The workspace exited with unsaved changes in the previous session; refreshing workspace to recover changes.
+
+!ENTRY org.eclipse.core.jobs 4 2 2015-01-08 16:04:15.009
+!MESSAGE An internal error occurred during: "Running GTM diagnose".
+!STACK 0
+java.lang.NoSuchMethodError: com.android.tools.lint.detector.api.XmlContext: method <init>(Lcom/android/tools/lint/client/api/LintDriver;Lcom/android/tools/lint/detector/api/Project;Lcom/android/tools/lint/detector/api/Project;Ljava/io/File;Lcom/android/resources/ResourceFolderType;)V not found
+	at com.google.i18n.inkstone.ide.android.diagnose.AndroidDiagnoseClient.createXmlContext(AndroidDiagnoseClient.java:101)
+	at com.google.i18n.inkstone.ide.android.diagnose.AndroidDiagnoseClient.getXmlContext(AndroidDiagnoseClient.java:84)
+	at com.google.i18n.inkstone.ide.android.diagnose.AndroidDiagnoseClient.parse(AndroidDiagnoseClient.java:55)
+	at com.google.i18n.inkstone.ide.common.diagnose.DiagnoseController.analyze(DiagnoseController.java:82)
+	at com.google.i18n.inkstone.eclipse.localization.internal.android.DiagnoseRunner.runInCurrentThread(DiagnoseRunner.java:154)
+	at com.google.i18n.inkstone.eclipse.localization.internal.android.DiagnoseRunner.access$000(DiagnoseRunner.java:36)
+	at com.google.i18n.inkstone.eclipse.localization.internal.android.DiagnoseRunner$1.run(DiagnoseRunner.java:121)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:53)
+
+!ENTRY org.eclipse.core.net 1 0 2015-01-08 16:04:16.771
+!MESSAGE System property http.nonProxyHosts has been set to local|*.local|169.254/16|*.169.254/16 by an external source. This value will be overwritten using the values from the preferences
