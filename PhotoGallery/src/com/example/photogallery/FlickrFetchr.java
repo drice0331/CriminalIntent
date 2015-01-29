@@ -19,7 +19,7 @@ public class FlickrFetchr {
 	
 	public static final String TAG = "FlickrFetchr";
 	
-	private static final String ENDPOINT = "http://api.flickr.com/services/rest/";
+	private static final String ENDPOINT = "https://api.flickr.com/services/rest/";
 	private static final String API_KEY = "90b233cc79dae343148995d2bc1c5699";
 	private static final String SECRET_KEY = "f876507cad5aa406";
 	private static final String METHOD_GET_RECENT = "flickr.photos.getRecent";
@@ -57,48 +57,48 @@ public class FlickrFetchr {
 		return new String(getUrlBytes(urlSpec));
 	}
 	
-	public ArrayList<GalleryItem> fetchItems() {
-		
-		ArrayList<GalleryItem> items = new ArrayList<GalleryItem>();
-		try {
-			String url = Uri.parse(ENDPOINT).buildUpon()
-					.appendQueryParameter("method", METHOD_GET_RECENT)
-					.appendQueryParameter("api_key", API_KEY)
-					.appendQueryParameter(PARAM_EXTRAS, EXTRA_SMALL_URL)
-					.build().toString();
-			
-			String xmlString = getUrl(url);
-			Log.i(TAG, "Received xml: " + xmlString);
-			XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
-			XmlPullParser parser = factory.newPullParser();
-			parser.setInput(new StringReader(xmlString));
-			
-		} catch (IOException e) {
-			Log.e(TAG, "Failed to fetch items", e);
-		} catch (XmlPullParserException xppe) {
-			Log.e(TAG, "Failed to parse items", xppe);
-		}
-		
-		return items;
-	}
+    public ArrayList<GalleryItem> fetchItems() {
+        ArrayList<GalleryItem> items = new ArrayList<GalleryItem>();
+        
+        try {
+            String url = Uri.parse(ENDPOINT).buildUpon()
+                    .appendQueryParameter("method", METHOD_GET_RECENT)
+                    .appendQueryParameter("api_key", API_KEY)
+                    .appendQueryParameter(PARAM_EXTRAS, EXTRA_SMALL_URL)
+                    .build().toString();
+            String xmlString = getUrl(url);
+            Log.i(TAG, "Received xml: " + xmlString);
+            XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
+            XmlPullParser parser = factory.newPullParser();
+            parser.setInput(new StringReader(xmlString));
+            
+            parseItems(items, parser);
+        } catch (IOException ioe) {
+            Log.e(TAG, "Failed to fetch items", ioe);
+        } catch (XmlPullParserException xppe) {
+            Log.e(TAG, "Failed to parse items", xppe);
+        }
+        return items;
+    }
 	
-	void parseItems(ArrayList<GalleryItem> items, XmlPullParser parser) throws XmlPullParserException, IOException {
-		int eventType = parser.next();
-		
-		while(eventType != XmlPullParser.END_DOCUMENT) {
-			if(eventType == XmlPullParser.START_TAG && XML_PHOTO.equals(parser.getName())) {
-				String id = parser.getAttributeValue(null, "id");
-				String caption = parser.getAttributeValue(null, "title");
-				String smallUrl = parser.getAttributeValue(null, EXTRA_SMALL_URL);
-				
-				GalleryItem item = new GalleryItem();
-				item.setId(id);
-				item.setCaption(caption);
-				item.setUrl(smallUrl);
-				items.add(item);
-			}
-			
-			eventType = parser.next();
-		}
-	}
+    void parseItems(ArrayList<GalleryItem> items, XmlPullParser parser) throws XmlPullParserException, IOException {
+        int eventType = parser.next();
+
+        while (eventType != XmlPullParser.END_DOCUMENT) {
+            if (eventType == XmlPullParser.START_TAG &&
+                XML_PHOTO.equals(parser.getName())) {
+                String id = parser.getAttributeValue(null, "id");
+                String caption = parser.getAttributeValue(null, "title");
+                String smallUrl = parser.getAttributeValue(null, EXTRA_SMALL_URL);
+
+                GalleryItem item = new GalleryItem();
+                item.setId(id);
+                item.setCaption(caption);
+                item.setUrl(smallUrl);
+                items.add(item);
+            }
+
+            eventType = parser.next();
+        }
+    }
 }

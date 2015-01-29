@@ -36,6 +36,8 @@ public class PhotoGalleryFragment extends Fragment {
 		
 		mGridView = (GridView)view.findViewWithTag(R.id.gridView);
 		
+		setUpAdapter();
+		
 		return view;
 	}
 	
@@ -60,6 +62,7 @@ public class PhotoGalleryFragment extends Fragment {
 		
 		@Override
 		protected void onPostExecute(ArrayList<GalleryItem> items) {
+			mItems = items;
 			setUpAdapter();
 		}
 		
