@@ -11,12 +11,16 @@ import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Message;
+import android.support.v4.util.LruCache;
 import android.util.Log;
 
 public class ThumbnailDownloader<Token> extends HandlerThread {
 
 	private static final String TAG = "ThumbnailDownloader";
 	private static final int MESSAGE_DOWNLOAD = 0;
+	private static final int CACHE_SIZE = 30;
+	
+	LruCache<String, Bitmap> cache;
 	
 	Handler mHandler;
 	Map<Token, String> requestMap = Collections.synchronizedMap(new HashMap<Token, String>());
@@ -35,6 +39,7 @@ public class ThumbnailDownloader<Token> extends HandlerThread {
 	public ThumbnailDownloader(Handler responseHandler) {
 		super(TAG);
 		mResponseHandler = responseHandler;
+		cache = new LruCache<String, Bitmap>(CACHE_SIZE);
 	}
 	
 	@SuppressLint("HandlerLeak")
@@ -73,9 +78,20 @@ public class ThumbnailDownloader<Token> extends HandlerThread {
 				return;
 			}
 			
-			byte [] bitmapBytes = new FlickrFetchr().getUrlBytes(url);
-			final Bitmap bitmap = BitmapFactory.decodeByteArray(bitmapBytes, 0, bitmapBytes.length);
-			Log.i(TAG, "Bitmap created");
+			//TODO - cache part - check
+			Bitmap bitmapFromCache = (Bitmap) cache.get(url);
+			final Bitmap bitmap;
+			
+			if(bitmapFromCache == null) {
+				byte [] bitmapBytes = new FlickrFetchr().getUrlBytes(url);
+				bitmap = BitmapFactory.decodeByteArray(bitmapBytes, 0, bitmapBytes.length);
+				cache.put(url, bitmap);
+				Log.i(TAG, "Bitmap created");
+			} else {
+				bitmap = bitmapFromCache;
+			}
+			
+			
 			
 			mResponseHandler.post(new Runnable() {
 				public void run() {
