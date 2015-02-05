@@ -18,7 +18,7 @@ public class ThumbnailDownloader<Token> extends HandlerThread {
 
 	private static final String TAG = "ThumbnailDownloader";
 	private static final int MESSAGE_DOWNLOAD = 0;
-	private static final int CACHE_SIZE = 30;
+	private static final int CACHE_SIZE = 100;
 	
 	LruCache<String, Bitmap> cache;
 	
@@ -54,6 +54,7 @@ public class ThumbnailDownloader<Token> extends HandlerThread {
 					Log.i(TAG, "Got a request for url: " + requestMap.get(token));
 					handleRequest(token);
 				}
+				Log.i(TAG, "what = " + msg.what);
 			}
 		};
 	}
