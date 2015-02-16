@@ -29,7 +29,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.SearchView;
 
-public class PhotoGalleryFragment extends Fragment {
+public class PhotoGalleryFragment extends VisibleFragment {
 	private static final String TAG = "PhotoGalleryFragment";
 	
 	GridView mGridView;
@@ -125,6 +125,7 @@ public class PhotoGalleryFragment extends Fragment {
     }
 
     @Override
+    @TargetApi(11)
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_item_search:

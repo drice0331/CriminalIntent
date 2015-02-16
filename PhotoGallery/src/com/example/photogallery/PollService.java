@@ -2,6 +2,7 @@ package com.example.photogallery;
 
 import java.util.ArrayList;
 
+import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.IntentService;
 import android.app.Notification;
@@ -20,7 +21,11 @@ public class PollService extends IntentService {
 
 	private static final String TAG = "Poll Service";
 	
-	private static final int POLL_INTERVAL = 1000*600; //600 SECONDS = 10 min
+	private static final int POLL_INTERVAL = 1000*5; //600 SECONDS = 10 min
+	public static final String PREF_IS_ALARM_ON = "isAlarmOn";
+	public static final String ACTION_SHOW_NOTIFICATION = "com.example.photogallery.SHOW_NOTIFICATION";
+	
+	public static final String PERM_PRIVATE = "com.example.photogallery.PRIVATE";
 	
 	public PollService() {
 		super(TAG);
@@ -66,9 +71,8 @@ public class PollService extends IntentService {
 				.setAutoCancel(true)
 				.build();
 			
-			NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+			showBackgroundNotification(0, notification);
 			
-			notificationManager.notify(0, notification);
 		} else {
 			Log.i(TAG, "Got an old result: " + resultId);
 		}
@@ -93,6 +97,11 @@ public class PollService extends IntentService {
 			alarmManager.cancel(pendingIntent);
 			pendingIntent.cancel();
 		}
+		
+		PreferenceManager.getDefaultSharedPreferences(context)
+			.edit()
+			.putBoolean(PollService.PREF_IS_ALARM_ON, isOn)
+			.commit();
 	}
 	
 	public static boolean isServiceAlarmOn(Context context) {
@@ -101,4 +110,12 @@ public class PollService extends IntentService {
 		return pendingIntent != null;//if null, then alarm is not set
 	}
 
+    void showBackgroundNotification(int requestCode, Notification notification) {
+        Intent i = new Intent(ACTION_SHOW_NOTIFICATION);
+        i.putExtra("REQUEST_CODE", requestCode);
+        i.putExtra("NOTIFICATION", notification);
+        
+        sendOrderedBroadcast(i, PERM_PRIVATE, null, null, Activity.RESULT_OK, null, null);
+    }	
+	
 }
